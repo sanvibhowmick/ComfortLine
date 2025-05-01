@@ -1,0 +1,61 @@
+/* Features Section */
+.features-section {
+    background-color: #f9f9f9; /* Light background */
+    padding: 60px 0; /* Increase the top and bottom padding for more space */
+  }
+  
+  .feature-item {
+    opacity: 0;
+    transform: translateY(30px); /* Start lower */
+    transition: opacity 1s ease-out, transform 1s ease-out;
+    margin-bottom: 30px; /* Space between items */
+  }
+  
+  .feature-item.fade-in {
+    opacity: 1;
+    transform: translateY(0); /* Move to original position */
+  }
+  
+  .feature-item .icon-square {
+    width: 60px;
+    height: 60px; /* Increase icon size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    margin-bottom: 20px; /* Add space below icon */
+  }
+  
+  .feature-item h3 {
+    font-size: 2rem; /* Increase heading size */
+    margin-bottom: 15px;
+  }
+  
+  .feature-item p {
+    font-size: 1.1rem; /* Slightly larger text for better readability */
+  }
+  
+  .feature-item .btn-green {
+    font-size: 1.1rem; /* Increase button text size */
+    padding: 12px 25px; /* Make button slightly larger */
+  }
+  
+  .green-heading {
+    color: #006747;
+  }
+  
+  .btn-green {
+    background-color: #006747;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-green:hover {
+    background-color: #004d33;
+  }
+  
+  
+  

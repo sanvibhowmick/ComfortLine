@@ -1,0 +1,186 @@
+/* Import Google Font for script-like font */
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+
+/* Styling for the ComfortLine logo text */
+.comfortline-text {
+  font-family: "Pacifico", cursive; /* Use the Pacifico script font */
+  color: #006747; /* Teal Green */
+  font-weight: normal; /* Normal font weight for a script font */
+  font-size: 2rem; /* Adjust font size for better visibility */
+}
+
+/* Custom styling for the navbar links */
+.nav-link {
+  color:#006747; /* Default link color */
+  font-weight: 500; /* Slightly bold text */
+  font-size: 1rem; /* Adjust font size for readability */
+}
+
+/* Hover effect on navbar links */
+.nav-link:hover {
+  color: #006747; /* Change text color on hover to Teal Green */
+}
+
+/* Style for the outline primary button (Login) */
+.btn-outline-primary {
+  border-color: #006747; /* Teal Green border for the outline button */
+  color: #006747; /* Teal Green text color */
+}
+
+.btn-outline-primary:hover {
+  background-color: #006747; /* Teal Green background on hover */
+  color: white; /* Change text color to white on hover */
+}
+
+/* Style for the primary button (Sign-up) */
+.btn-primary {
+  background-color: #006747; /* Teal Green background */
+  border-color: #006747; /* Teal Green border */
+  color: white; /* White text */
+}
+
+/* Ensure the navbar stays at the top and has a nice spacing */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #fff; /* White background for the header */
+  box-shadow: 0 4px 2px -2px gray; /* Add shadow for a floating effect */
+}
+
+/* Padding and margin adjustments for responsiveness */
+header .container-fluid {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+/* Custom styling for the navbar links */
+/* Custom styling for the navbar links */
+.nav-link {
+  color: #006747; /* Teal Green by default */
+  font-weight: 500; /* Slightly bold text */
+  font-size: 1.5rem; /* Adjusted font size */
+}
+
+/* Style for the active link (currently on page) */
+.nav-link.active {
+  color: white; /* White text for active link */
+  background-color: #006747; /* Green background for active link */
+  border-radius: 5px; /* Optional: adds rounded corners to the active link */
+}
+
+/* Hover effect on navbar links */
+.nav-link:hover {
+  color: #006747; /* Darker green on hover */
+  background-color: transparent; /* No background color on hover */
+}
+
+/* Optional: Styling for the active link to remove underline */
+.nav-link.active:hover {
+  background-color: #006747; /* Keep green background on hover for active link */
+}
+.sign-up-button, .login-button {
+    background-color: #006747; /* Teal Green */
+    color: white;
+    padding: 18px 40px; /* Increased padding for a bigger button */
+    font-size: 1.5rem; /* Increased font size */
+    border: none;
+    border-radius: 8px; /* Rounded corners */
+    text-decoration: none;
+    font-weight: bold; /* Bold text */
+    transition: background-color 0.3s ease;
+  }
+  
+  /* On hover */
+  .sign-up-button:hover, .login-button:hover {
+    background-color: #004d33;
+   
+  }
+  /* Import Pacifico font */
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+
+
+
+
+
+.nav-link {
+  font-family: "Pacifico", cursive;
+  font-weight: normal; /* Adjust the weight to normal for readability */
+
+}
+/* Specific style for the Home button */
+.nav-link.home-link {
+  background-color: #006747; /* Teal Green */
+  color: white !important;
+  border-radius: 5px;
+}
+
+/* Optional: maintain the style on hover */
+.nav-link.home-link:hover {
+  background-color: #004d33; /* Darker green */
+  color: white;
+}
+.about-us-container {
+  padding: 2rem;
+  background-color: #f9f9f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.about-us-intro {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.about-us-intro h2 {
+  font-size: 2.8rem;
+  color: #1e7f5c; /* Green heading */
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.about-us-intro p {
+  font-size: 1.3rem;
+  line-height: 1.8;
+  font-weight: 500;
+  white-space: pre-line; /* Supports line breaks from JSX */
+}
+.user-greeting {
+  font-weight: bold;
+  margin-right: 1rem;
+  color: #333;
+}
+/* Apply Pacifico font to Hello {user.name} */
+/* Apply Pacifico font to Hello {user.name} */
+.hello-user {
+  font-family: 'Pacifico', sans-serif; /* Pacifico font */
+  color: #004d33; /* Green color for the text */
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 10px; /* Adjust this value to move the text lower */
+}
+
+
+/* Styling for the Logout button */
+.logout-button {
+  background-color: #004d33; /* Green background */
+  color: white; /* White text */
+  border: none; /* Remove any border */
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.logout-button:hover {
+  background-color: #004d33 /* Slightly darker green on hover */
+}
+
+
+
+
+
+
+
+    
+
+

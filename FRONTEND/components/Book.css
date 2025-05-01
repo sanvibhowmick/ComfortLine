@@ -1,0 +1,109 @@
+/* General styles */
+.booking-container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .dropdowns {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .dropdown {
+    padding: 12px 20px;
+    font-size: 16px;
+    width: 30%;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: #f4f4f4;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  /* Dropdown Hover effect */
+  .dropdown:hover {
+    border-color: #004d33;;  /* Green border on hover */
+    background-color: #eaf8ea; /* Light green background */
+  }
+  
+  /* Focus state for the dropdown */
+  .dropdown:focus {
+    outline: none;
+    border-color: #004d33;
+    background-color: #eaf8ea;
+  }
+  
+  /* Bus Background */
+  .bus-background {
+    background-image: url('/assets/seat.png'); /* Background image of the bus */
+    background-size: cover;
+    background-position: center;
+    width: 95%;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  /* Seat Map */
+  .seat-map {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .seat {
+    width: 40px;
+    height: 40px;
+    background-color: grey;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .selected {
+    background-color: #004d33;;
+  }
+  
+  .unoccupied {
+    background-color: grey;
+  }
+  
+  .seat:hover {
+    background-color: #6a6a6a; /* Slightly darker grey on hover */
+  }
+  
+  /* Confirm Button */
+  .confirm-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #004d33;;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    opacity: 0.7;
+    border-radius: 5px;
+    transition: all 0.1s ease;
+  }
+  
+  .confirm-button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .confirm-button:hover {
+    opacity: 1;
+    background-color: #004d33; /* Darker green on hover */
+  }
+  

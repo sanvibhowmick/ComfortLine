@@ -1,0 +1,62 @@
+/* About Us Section */
+.about-us-container {
+  padding: 2rem;
+  background-color: #f9f9f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  opacity: 0; /* Start invisible */
+  animation: fadeIn 1s forwards; /* Apply fade-in animation */
+}
+
+.about-us-intro {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.about-us-intro h2 {
+  font-size: 2.8rem;
+  color: #1e7f5c; /* Green heading */
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.about-us-intro p {
+  font-size: 1.3rem;
+  line-height: 1.8;
+  font-weight: 500;
+  white-space: pre-line; /* Supports line breaks from JSX */
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* "Why Us?" Section */
+#custom-cards > h2 {
+  color: #1e7f5c;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+  opacity: 0; /* Start invisible */
+  animation: fadeIn 1s forwards 0.5s; /* Apply fade-in animation with delay */
+}
+
+/* Optional: Improve card visibility */
+.card-cover {
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+/* Optional: "Why Us?" section content fade-in */
+#custom-cards .card {
+  opacity: 0; /* Start invisible */
+  animation: fadeIn 1s forwards 1s; /* Apply fade-in animation with delay */
+}

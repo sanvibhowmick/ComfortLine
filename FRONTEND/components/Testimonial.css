@@ -1,0 +1,89 @@
+/* Testimonial Section */
+.testimonial-section {
+    position: relative;
+    z-index: 1;
+}
+
+.testimonial-parallax {
+    background-image: url('your-image.jpg'); /* Replace this with your actual image URL */
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    padding: 100px 0; /* Adjust padding for the section height */
+    z-index: -1;
+}
+
+.testimonial-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-10px);
+}
+
+.testimonial-name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #006747; /* Green color */
+}
+
+.testimonial-text {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 15px;
+}
+
+.testimonial-card svg {
+    margin-bottom: 20px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+/* Make "What Our Customers Say" heading green */
+.testimonial-section h2 {
+    color: #006747; /* Green color */
+}
+
+/* Optional: Make sure the text stands out */
+.testimonial-text {
+    color: #333;
+}
+
+/* Initial state for testimonials */
+.testimonial-card {
+    opacity: 0;
+    transform: scale(0.8); /* Start smaller */
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Class to trigger the zoom-in animation */
+.testimonial-card.zoom-in {
+    opacity: 1;
+    transform: scale(1); /* Return to original size */
+}
+
+/* Optional: Add smooth transition for the image */
+.testimonial-card img {
+    transition: transform 0.6s ease;
+}
+
+.testimonial-card.zoom-in img {
+    transform: scale(1.1); /* Slight zoom on the image */
+}
+.testimonial-name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #006747; /* Green color */
+    margin-top: 15px; /* Adjust this value to increase/decrease the gap */
+  }
+  

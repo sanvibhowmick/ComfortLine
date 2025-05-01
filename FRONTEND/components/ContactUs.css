@@ -1,0 +1,108 @@
+/* Fade-in animation */
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .contact-us-wrapper {
+    max-width: 700px;
+    margin: 60px auto;
+    padding: 30px;
+    background-color: #f9fafb;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out; /* Apply fade-in animation */
+  }
+  
+  .contact-info {
+    background-color: #fff;
+    padding: 25px;
+    border-left: 5px solid #006747; /* Green border */
+    border-radius: 8px;
+  }
+  
+  .contact-info h2 {
+    margin-bottom: 12px;
+    color: #006747; /* Green heading */
+    font-size: 24px; /* Larger font size */
+  }
+  
+  .contact-info ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+  
+  .contact-info li {
+    margin: 10px 0;
+    font-size: 18px; /* Larger font size for details */
+  }
+  
+  .contact-info a {
+    color: #006747;
+    text-decoration: none;
+  }
+  
+  .contact-info a:hover {
+    text-decoration: underline;
+  }
+  
+  .contact-form-section {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+  }
+  
+  .contact-form-section h3 {
+    margin-bottom: 20px;
+    color: #006747; /* Green heading */
+    font-size: 22px; /* Larger font size */
+  }
+  
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .contact-form input,
+  .contact-form textarea {
+    width: 85%;
+    max-width: 500px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    text-align: left;
+  }
+  
+  .contact-form textarea {
+    resize: vertical;
+  }
+  
+  .contact-form button {
+    background-color: #006747; /* Green button */
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .contact-form button:hover {
+    background-color: #004d34;
+  }
+  

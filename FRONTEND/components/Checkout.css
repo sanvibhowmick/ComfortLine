@@ -1,0 +1,56 @@
+/* General Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Logo Style */
+  .logo {
+    border-radius: 50%;
+  }
+  
+  /* Form Wrapper to Limit Width */
+  .form-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  /* Narrower Input Fields */
+  .form-wrapper .form-control {
+    width: 100%;
+    max-width: 90%; /* You can tweak this to 80% or 70% if needed */
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Button Styling */
+  button.btn-success {
+    font-size: 1.1rem;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  /* Cart Section Styles */
+  .text-primary {
+    color: #0d6efd !important;
+  }
+  
+  .badge.bg-primary {
+    background-color: #0d6efd;
+  }
+  
+  /* Ticket List Styles */
+  .list-group-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+  }
+  
+  /* Responsive Fixes */
+  @media (max-width: 768px) {
+    .form-wrapper .form-control {
+      max-width: 100%;
+    }
+  }
+  

@@ -1,0 +1,33 @@
+@media (max-width: 768px) {
+  .chatbot-container {
+    width: 240px; /* smaller width on small screens */
+    bottom: 15px;
+    right: 15px;
+  }
+
+  .chatbot-body {
+    max-height: 200px; /* slightly reduced height */
+    padding: 8px;
+  }
+
+  .chatbot-header,
+  .chatbot-footer {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .chat-input {
+    padding: 6px;
+    font-size: 13px;
+  }
+
+  .send-button {
+    padding: 6px 10px;
+    font-size: 13px;
+    width: 70px;
+  }
+
+  .message {
+    font-size: 13px;
+  }
+}

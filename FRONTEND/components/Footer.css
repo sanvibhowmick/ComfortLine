@@ -1,0 +1,67 @@
+/* Make sure the footer spans the entire width */
+.footer-container {
+    width: 100%;
+    color: #006747;
+  }
+  
+    
+  
+  /* Style for the footer */
+  footer.footer {
+    background-color: #f8f9fa; /* Light background color for the footer */
+    color: #006747; /* Green text color */
+    padding: 20px 0; /* Add padding around the footer */
+    width: 100%; /* Ensure full-width footer */
+    box-sizing: border-box; /* Include padding and border in the width calculation */
+    border-top: 1px solid #ddd; /* Border at the top of the footer */
+    
+  }
+  
+  /* Style for the copyright text */
+  footer p {
+    font-size: 2rem;
+    font-weight: bold; /* Make the copyright text bold */
+    color: #006747; /* Green text for copyright */
+  }
+  
+  /* Style for the navigation links in the footer */
+  footer .nav-link {
+    color: #006747; /* Green text for the links */
+    font-weight: bold; /* Bold text for the links */
+    transition: color 0.3s ease; /* Smooth hover effect */
+  }
+  
+  /* Hover effect for the links */
+  footer .nav-link:hover {
+    color: #004d33; /* Darker green on hover */
+  }
+  
+  /* Center the logo or SVG if necessary */
+  footer .bi {
+    width: 80px;
+    height: 80px;
+    fill: #006747; /* Green color for the logo */
+  }
+  
+  /* Ensure the footer content is spaced out well */
+  footer .nav {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+  }
+  
+  footer .nav-item {
+    list-style: none;
+  }
+  
+  /* For mobile screens, ensure the footer items stack */
+  @media (max-width: 768px) {
+    footer .nav {
+      flex-direction: column;
+      align-items: center;
+    }
+    footer .nav-item {
+      margin: 10px 0;
+    }
+  }
+  

@@ -46,9 +46,13 @@ const SignUpPage = () => {
 
         {/* Google OAuth Sign-Up Button */}
         <div className="google-signup">
-          <a href="http://localhost:3000/auth/google" className="google-signup-btn">
-            Sign Up with Google
-          </a>
+        <button
+  className="google-signup-btn"
+  onClick={() => window.location.href = "http://localhost:3000/auth/google"}
+>
+  Sign Up with Google
+</button>
+
         </div>
 
         <p className="login-link">

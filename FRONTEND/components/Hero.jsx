@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "./Hero.css";
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
   useEffect(() => {
@@ -61,9 +62,9 @@ const Hero = () => {
         <p className="hero-subheading">
           Travel in style with ComfortLine, your trusted partner for unforgettable trips.
         </p>
-        <a href="/book" className="cta-button hero-button">
-          Book Your Ride
-        </a>
+        <Link to="/book" className="cta-button hero-button">
+  Book Your Ride
+</Link>
       </div>
     </section>
   );

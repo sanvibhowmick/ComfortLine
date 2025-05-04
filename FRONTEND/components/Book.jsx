@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, MapPin } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import './Book.css';
 
 const BusBooking = () => {
@@ -12,6 +13,7 @@ const BusBooking = () => {
   const [formStep, setFormStep] = useState(1);
   const [confirmDisabled, setConfirmDisabled] = useState(true);
 
+  const navigate = useNavigate();
   const today = new Date().toISOString().split('T')[0];
 
   const isFormValid = () => {
@@ -33,13 +35,16 @@ const BusBooking = () => {
   };
 
   const handleConfirmBooking = () => {
-    alert(`Booking confirmed!
-    Pickup: ${pickupLocation}
-    Drop: ${dropLocation}
-    Date: ${pickupDate}
-    Time: ${pickupTime}
-    Passenger Type: ${passengerType}
-    Seats: ${selectedSeats.join(', ')}`);
+    navigate('/checkout', {
+      state: {
+        pickupLocation,
+        dropLocation,
+        pickupDate,
+        pickupTime,
+        passengerType,
+        selectedSeats,
+      },
+    });
   };
 
   const renderStepOne = () => (

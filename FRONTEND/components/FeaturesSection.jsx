@@ -1,30 +1,25 @@
 import React, { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import "./FeaturesSection.css"; // Ensure this CSS file contains the .green-heading class
 
 export default function FeaturesSection() {
   const featureRef = useRef([]);
 
   useEffect(() => {
-    // Create the Intersection Observer
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry, index) => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Add the animation class when the element enters the viewport
             entry.target.classList.add("fade-in");
           }
         });
       },
-      { threshold: 0.5 } // Trigger when 50% of the element is visible
+      { threshold: 0.5 }
     );
 
-    // Observe each feature item
     featureRef.current.forEach((item) => observer.observe(item));
 
-    return () => {
-      // Cleanup observer when component is unmounted
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -43,9 +38,9 @@ export default function FeaturesSection() {
             <p>
               Our buses are equipped with premium seating, air conditioning, and spacious legroom for a comfortable journey.
             </p>
-            <a href="./about" className="btn btn-green">
+            <Link to="/about" className="btn btn-green">
               Learn More
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -62,9 +57,9 @@ export default function FeaturesSection() {
             <p>
               Our buses run on time, ensuring that you reach your destination promptly. Enjoy stress-free travel with Comfortline.
             </p>
-            <a href="./about" className="btn btn-green">
+            <Link to="/about" className="btn btn-green">
               Learn More
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -81,9 +76,9 @@ export default function FeaturesSection() {
             <p>
               Track your bus in real time through our mobile app to stay updated on your journey's progress.
             </p>
-            <a href="./about" className="btn btn-green">
+            <Link to="/about" className="btn btn-green">
               Learn More
-            </a>
+            </Link>
           </div>
         </div>
       </div>

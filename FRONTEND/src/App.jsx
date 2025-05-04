@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/ComfortLineHeader";
 import Hero from "../components/Hero";
 import FeaturesSection from "../components/FeaturesSection";
@@ -29,7 +29,7 @@ function AppWrapper() {
       localStorage.setItem("user", JSON.stringify(userData));
       setUser(userData);
       window.history.replaceState({}, document.title, "/"); // Clean URL
-      navigate("/"); // Force navigation to home after login
+      navigate("/"); // Redirect to home after login
     } else {
       const savedUser = localStorage.getItem("user");
       if (savedUser) {

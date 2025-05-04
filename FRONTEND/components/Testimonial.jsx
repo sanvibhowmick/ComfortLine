@@ -39,7 +39,7 @@ const Testimonial = () => {
                     className="bd-placeholder-img rounded-circle"
                     width="140"
                     height="140"
-                    src="public\assets\person1.png"
+                    src="\assets\person1.png"
                     alt="John Doe"
                   />
                 </div>
@@ -59,7 +59,7 @@ const Testimonial = () => {
                     className="bd-placeholder-img rounded-circle"
                     width="140"
                     height="140"
-                    src="public\assets\person2.png"
+                    src="\assets\person2.png"
                     alt="Jane Smith"
                   />
                 </div>
@@ -79,7 +79,7 @@ const Testimonial = () => {
                     className="bd-placeholder-img rounded-circle"
                     width="140"
                     height="140"
-                    src="public\assets\person3.png"
+                    src="\assets\person3.png"
                     alt="Samuel Lee"
                   />
                 </div>

@@ -36,7 +36,7 @@ export default function FeaturesSection() {
           ref={(el) => (featureRef.current[0] = el)}
         >
           <div className="icon-square bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-            <img src=".\components\image.png" alt="Bus Icon" width="40" height="40" />
+            <img src="\assets\image copy.png" alt="Bus Icon" width="40" height="40" />
           </div>
           <div>
             <h3 className="fs-2 green-heading">Comfortable Travel</h3>
@@ -55,7 +55,7 @@ export default function FeaturesSection() {
           ref={(el) => (featureRef.current[1] = el)}
         >
           <div className="icon-square bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-            <img src=".\components\time.png" alt="Clock Icon" width="40" height="40" />
+            <img src="\assets\time.png" alt="Clock Icon" width="40" height="40" />
           </div>
           <div>
             <h3 className="fs-2 green-heading">Timely Service</h3>
@@ -74,7 +74,7 @@ export default function FeaturesSection() {
           ref={(el) => (featureRef.current[2] = el)}
         >
           <div className="icon-square bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-            <img src=".\components\track.png" alt="GPS Icon" width="40" height="40" />
+            <img src="\assets\track.png" alt="GPS Icon" width="40" height="40" />
           </div>
           <div>
             <h3 className="fs-2 green-heading">Real-Time Tracking</h3>

@@ -33,7 +33,7 @@ Join thousands of happy passengers who choose Comfortline for their everyday and
                 <ul className="d-flex list-unstyled mt-auto">
                   <li className="me-auto">
                     <img
-                      src="src\WhatsApp Image 2025-04-29 at 16.16.53_e448980f.jpg" // Corrected path
+                      src="..\dist\assets\WhatsApp Image 2025-04-29 at 16.16.53_e448980f.jpg" // Corrected path
                       alt="Bootstrap"
                       width="50"
                       height="50"
@@ -79,7 +79,7 @@ Join thousands of happy passengers who choose Comfortline for their everyday and
                 <ul className="d-flex list-unstyled mt-auto">
                   <li className="me-auto">
                     <img
-                      src="src\WhatsApp Image 2025-04-29 at 16.16.53_e448980f.jpg" // Corrected path
+                      src="..\dist\assets\WhatsApp Image 2025-04-29 at 16.16.53_e448980f.jpg" // Corrected path
                       alt="Bootstrap"
                       width="50"
                       height="50"
@@ -125,7 +125,7 @@ Join thousands of happy passengers who choose Comfortline for their everyday and
                 <ul className="d-flex list-unstyled mt-auto">
                   <li className="me-auto">
                     <img
-                      src="src\WhatsApp Image 2025-04-29 at 16.16.53_e448980f.jpg" // Corrected path
+                      src="..\dist\assets\WhatsApp Image 2025-04-29 at 16.16.53_e448980f.jpg" // Corrected path
                       alt="Bootstrap"
                       width="50"
                       height="50"

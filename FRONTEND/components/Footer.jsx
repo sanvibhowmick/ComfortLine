@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./Footer.css";
+import "./footer.css";
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -26,7 +26,7 @@ const Footer = () => {
             className="bi me-2"
             width="50"
             height="50"
-            src="src/WhatsApp Image 2025-04-29 at 16.16.53_e448980f.jpg"
+            src="..\dist\assets\WhatsApp Image 2025-04-29 at 16.16.53_e448980f.jpg"
             alt="Comfortline Logo"
           />
         </Link>

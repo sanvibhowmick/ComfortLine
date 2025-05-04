@@ -15,7 +15,7 @@ export default function ComfortLineHeader({ user, onLogout }) {
           >
             {/* Logo image */}
             <img
-              src="src/WhatsApp Image 2025-04-29 at 16.16.53_e448980f.jpg"
+              src="..\dist\assets\WhatsApp Image 2025-04-29 at 16.16.53_e448980f.jpg"
               alt="ComfortLine Logo"
               width="100"
               height="100"

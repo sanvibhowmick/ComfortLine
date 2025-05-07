@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Clock, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { Calendar, Clock, MapPin, Users, Info, ArrowLeft } from 'lucide-react';
 import './Book.css';
 
 const BusBooking = () => {
@@ -12,9 +12,19 @@ const BusBooking = () => {
   const [passengerType, setPassengerType] = useState('Adult');
   const [formStep, setFormStep] = useState(1);
   const [confirmDisabled, setConfirmDisabled] = useState(true);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const navigate = useNavigate();
   const today = new Date().toISOString().split('T')[0];
+  const PRICE_PER_SEAT = 1200; // Price in INR
+
+  const busRoutes = {
+    "Mumbai": ["Pune", "Nashik", "Ahmedabad"],
+    "Delhi": ["Jaipur", "Chandigarh", "Agra"],
+    "Bangalore": ["Chennai", "Hyderabad", "Mysore"],
+    "Chennai": ["Bangalore", "Hyderabad", "Pondicherry"],
+    "Hyderabad": ["Bangalore", "Chennai", "Vijayawada"]
+  };
 
   const isFormValid = () => {
     return formStep === 1
@@ -26,6 +36,22 @@ const BusBooking = () => {
     setConfirmDisabled(!isFormValid());
   }, [pickupLocation, dropLocation, pickupTime, pickupDate, selectedSeats, formStep]);
 
+  useEffect(() => {
+    setTotalPrice(selectedSeats.length * PRICE_PER_SEAT);
+  }, [selectedSeats]);
+
+  const getAvailableDropLocations = () => {
+    if (!pickupLocation) return [];
+    return busRoutes[pickupLocation] || [];
+  };
+
+  const handlePickupChange = (value) => {
+    setPickupLocation(value);
+    if (value && dropLocation && !busRoutes[value]?.includes(dropLocation)) {
+      setDropLocation('');
+    }
+  };
+
   const handleSeatSelection = (seatNumber) => {
     setSelectedSeats((prev) =>
       prev.includes(seatNumber)
@@ -35,96 +61,108 @@ const BusBooking = () => {
   };
 
   const handleConfirmBooking = () => {
+    // Pass booking details to checkout page
     navigate('/checkout', {
       state: {
-        pickupLocation,
-        dropLocation,
-        pickupDate,
-        pickupTime,
-        passengerType,
-        selectedSeats,
-      },
+        bookingDetails: {
+          pickupLocation,
+          dropLocation,
+          pickupDate,
+          pickupTime,
+          passengerType,
+          selectedSeats,
+          totalPrice,
+          journeyDetails: `${pickupLocation} → ${dropLocation}, ${pickupDate} at ${pickupTime}`
+        }
+      }
     });
   };
 
+  const goBack = () => {
+    if (formStep > 1) {
+      setFormStep(formStep - 1);
+    }
+  };
+
+  const renderBusSeats = () => {
+    const rows = 6;
+    const seatsPerRow = 5;
+    const seats = [];
+    let seatCounter = 1;
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < seatsPerRow; col++) {
+        if (col === 2) continue; // Skip middle column for aisle
+        
+        const seatNumber = seatCounter++;
+        const isSelected = selectedSeats.includes(seatNumber);
+        const isBooked = [3, 7, 12, 15, 19, 22].includes(seatNumber);
+
+        seats.push(
+          <div
+            key={seatNumber}
+            className={`seat ${isBooked ? 'booked' : 'available'} ${isSelected ? 'selected' : ''}`}
+            onClick={() => !isBooked && handleSeatSelection(seatNumber)}
+            title={isBooked ? 'Already booked' : `Seat ${seatNumber}`}
+          >
+            {seatNumber}
+          </div>
+        );
+      }
+    }
+
+    return seats;
+  };
+
   const renderStepOne = () => (
-    <div className="p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-xl font-bold mb-6 text-gray-800 flex items-center">
-        <span className="bg-green-700 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3">1</span>
-        Journey Details
+    <div className="booking-container">
+      <h2 className="booking-heading">
+        <span className="step-circle">1</span> Journey Details
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+      <div className="form-grid">
         {/* Pickup Location */}
-        <div className="relative">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Pickup Location</label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <MapPin className="h-5 w-5 text-gray-400" />
-            </div>
-            <select
-              value={pickupLocation}
-              onChange={(e) => setPickupLocation(e.target.value)}
-              className="pl-10 block w-full rounded-md border border-gray-300 py-2 text-gray-900 shadow-sm focus:border-green-600 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-            >
+        <div className="input-group">
+          <label>Pickup Location</label>
+          <div className="input-icon">
+            <MapPin className="icon" />
+            <select value={pickupLocation} onChange={(e) => handlePickupChange(e.target.value)}>
               <option value="">Select Pickup Location</option>
-              <option value="New York City">New York City</option>
-              <option value="Boston">Boston</option>
-              <option value="Philadelphia">Philadelphia</option>
-              <option value="Washington DC">Washington DC</option>
+              {Object.keys(busRoutes).map(city => (
+                <option key={city} value={city}>{city}</option>
+              ))}
             </select>
           </div>
         </div>
 
         {/* Drop Location */}
-        <div className="relative">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Drop Location</label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <MapPin className="h-5 w-5 text-gray-400" />
-            </div>
-            <select
-              value={dropLocation}
-              onChange={(e) => setDropLocation(e.target.value)}
-              className="pl-10 block w-full rounded-md border border-gray-300 py-2 text-gray-900 shadow-sm focus:border-green-600 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-            >
+        <div className="input-group">
+          <label>Drop Location</label>
+          <div className="input-icon">
+            <MapPin className="icon" />
+            <select value={dropLocation} onChange={(e) => setDropLocation(e.target.value)} disabled={!pickupLocation}>
               <option value="">Select Drop Location</option>
-              <option value="New York City">New York City</option>
-              <option value="Boston">Boston</option>
-              <option value="Philadelphia">Philadelphia</option>
-              <option value="Washington DC">Washington DC</option>
+              {getAvailableDropLocations().map(city => (
+                <option key={city} value={city}>{city}</option>
+              ))}
             </select>
           </div>
         </div>
 
         {/* Travel Date */}
-        <div className="relative">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Travel Date</label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Calendar className="h-5 w-5 text-gray-400" />
-            </div>
-            <input
-              type="date"
-              min={today}
-              value={pickupDate}
-              onChange={(e) => setPickupDate(e.target.value)}
-              className="pl-10 block w-full rounded-md border border-gray-300 py-2 text-gray-900 shadow-sm focus:border-green-600 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-            />
+        <div className="input-group">
+          <label>Travel Date</label>
+          <div className="input-icon">
+            <Calendar className="icon" />
+            <input type="date" min={today} value={pickupDate} onChange={(e) => setPickupDate(e.target.value)} />
           </div>
         </div>
 
-        {/* Time Picker */}
-        <div className="relative">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Departure Time</label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Clock className="h-5 w-5 text-gray-400" />
-            </div>
-            <select
-              value={pickupTime}
-              onChange={(e) => setPickupTime(e.target.value)}
-              className="pl-10 block w-full rounded-md border border-gray-300 py-2 text-gray-900 shadow-sm focus:border-green-600 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-            >
+        {/* Departure Time */}
+        <div className="input-group">
+          <label>Departure Time</label>
+          <div className="input-icon">
+            <Clock className="icon" />
+            <select value={pickupTime} onChange={(e) => setPickupTime(e.target.value)}>
               <option value="">Select Departure Time</option>
               <option value="06:00 AM">06:00 AM</option>
               <option value="08:00 AM">08:00 AM</option>
@@ -135,50 +173,91 @@ const BusBooking = () => {
             </select>
           </div>
         </div>
+
+        {/* Passenger Type */}
+        <div className="input-group">
+          <label>Passenger Type</label>
+          <div className="input-icon">
+            <Users className="icon" />
+            <select value={passengerType} onChange={(e) => setPassengerType(e.target.value)}>
+              <option value="Adult">Adult</option>
+              <option value="Child">Child</option>
+              <option value="Senior">Senior</option>
+            </select>
+          </div>
+        </div>
       </div>
-      <button
-        onClick={() => setFormStep(2)}
-        className="confirm-button mt-4"
-        disabled={confirmDisabled}
-      >
+
+      {pickupLocation && dropLocation && (
+        <div className="route-info">
+          <Info className="info-icon" />
+          <p>
+            Route: {pickupLocation} → {dropLocation}. Estimated Duration: {
+              (pickupLocation === "Mumbai" && dropLocation === "Pune" && "3 hours") ||
+              (pickupLocation === "Mumbai" && dropLocation === "Nashik" && "4 hours") ||
+              (pickupLocation === "Mumbai" && dropLocation === "Ahmedabad" && "8 hours") ||
+              (pickupLocation === "Delhi" && dropLocation === "Jaipur" && "5 hours") ||
+              (pickupLocation === "Delhi" && dropLocation === "Chandigarh" && "6 hours") ||
+              (pickupLocation === "Delhi" && dropLocation === "Agra" && "4 hours") ||
+              (pickupLocation === "Bangalore" && dropLocation === "Chennai" && "6 hours") ||
+              (pickupLocation === "Bangalore" && dropLocation === "Hyderabad" && "8 hours") ||
+              (pickupLocation === "Bangalore" && dropLocation === "Mysore" && "3 hours") ||
+              (pickupLocation === "Chennai" && dropLocation === "Bangalore" && "6 hours") ||
+              (pickupLocation === "Chennai" && dropLocation === "Hyderabad" && "10 hours") ||
+              (pickupLocation === "Chennai" && dropLocation === "Pondicherry" && "3 hours") ||
+              (pickupLocation === "Hyderabad" && dropLocation === "Bangalore" && "8 hours") ||
+              (pickupLocation === "Hyderabad" && dropLocation === "Chennai" && "10 hours") ||
+              (pickupLocation === "Hyderabad" && dropLocation === "Vijayawada" && "5 hours")
+            }. Price per seat: ₹{PRICE_PER_SEAT}.
+          </p>
+        </div>
+      )}
+
+      <button onClick={() => setFormStep(2)} disabled={confirmDisabled} className="booking-button">
         Continue to Seat Selection
       </button>
     </div>
   );
 
   const renderStepTwo = () => (
-    <div className="seats-container">
-      <h2 className="text-xl font-bold mb-6 text-gray-800 text-center">Select Your Seats</h2>
-      <div className="seat-map">
-        {Array.from({ length: 30 }, (_, i) => {
-          const seatNumber = i + 1;
-          const isSelected = selectedSeats.includes(seatNumber);
-          return (
-            <div
-              key={seatNumber}
-              className={`seat available ${isSelected ? 'selected' : ''}`}
-              onClick={() => handleSeatSelection(seatNumber)}
-            >
-              {seatNumber}
-            </div>
-          );
-        })}
+    <div className="booking-container">
+      <button onClick={goBack} className="back-button">
+        <ArrowLeft className="icon" /> Back to Journey Details
+      </button>
+
+      <h2 className="booking-heading">
+        <span className="step-circle">2</span> Select Your Seats
+      </h2>
+
+      <div className="seat-grid">{renderBusSeats()}</div>
+
+      <div className="seat-legend">
+        <div className="legend-item">
+          <div className="legend-color legend-available"></div>
+          <span>Available</span>
+        </div>
+        <div className="legend-item">
+          <div className="legend-color legend-selected"></div>
+          <span>Selected</span>
+        </div>
+        <div className="legend-item">
+          <div className="legend-color legend-booked"></div>
+          <span>Booked</span>
+        </div>
       </div>
-      <button
-        className="confirm-button mt-6"
-        onClick={handleConfirmBooking}
-        disabled={confirmDisabled}
-      >
+
+      <div className="summary">
+        <p>Selected Seats: {selectedSeats.join(', ') || 'None'}</p>
+        <p>Total Price: ₹{totalPrice}</p>
+      </div>
+
+      <button onClick={handleConfirmBooking} disabled={confirmDisabled} className="booking-button">
         Confirm Booking
       </button>
     </div>
   );
 
-  return (
-    <div className="booking-container">
-      {formStep === 1 ? renderStepOne() : renderStepTwo()}
-    </div>
-  );
+  return formStep === 1 ? renderStepOne() : renderStepTwo();
 };
 
 export default BusBooking;

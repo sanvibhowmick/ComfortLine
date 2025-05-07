@@ -19,15 +19,14 @@ const CheckoutPage = () => {
   const [isCompleted, setIsCompleted] = useState(false);
 
   // Pricing constants
-  const SEAT_PRICE = 25;
-  const TAX_RATE = 0.08;
+  const SEAT_PRICE = 1200; // Price in INR
+  const TAX_RATE = 0.18; // GST in India (18%)
 
   useEffect(() => {
     // Get booking details from location state or localStorage
-    const details = location.state?.bookingDetails;
-    if (details) {
-      setBookingDetails(details);
-      localStorage.setItem('bookingDetails', JSON.stringify(details));
+    if (location.state && location.state.bookingDetails) {
+      setBookingDetails(location.state.bookingDetails);
+      localStorage.setItem('bookingDetails', JSON.stringify(location.state.bookingDetails));
     } else {
       const savedDetails = localStorage.getItem('bookingDetails');
       if (savedDetails) {
@@ -198,7 +197,7 @@ const CheckoutPage = () => {
         <p>Your booking has been confirmed.</p>
         <div className="booking-reference mt-4">
           <p><strong>Booking Reference:</strong> {Math.random().toString(36).substring(2, 10).toUpperCase()}</p>
-          <p><strong>Total Amount Paid:</strong> ${calculateTotal().toFixed(2)}</p>
+          <p><strong>Total Amount Paid:</strong> ₹{calculateTotal().toFixed(2)}</p>
         </div>
         <p className="redirect-message mt-4">You will be redirected to the homepage shortly...</p>
       </div>
@@ -243,16 +242,16 @@ const CheckoutPage = () => {
           
           <div className="price-breakdown">
             <div className="price-item">
-              <span>Seats ({bookingDetails.selectedSeats.length} × ${SEAT_PRICE})</span>
-              <span>${calculateSubtotal().toFixed(2)}</span>
+              <span>Seats ({bookingDetails.selectedSeats.length} × ₹{SEAT_PRICE})</span>
+              <span>₹{calculateSubtotal().toFixed(2)}</span>
             </div>
             <div className="price-item">
-              <span>Tax ({(TAX_RATE * 100).toFixed(0)}%)</span>
-              <span>${calculateTax().toFixed(2)}</span>
+              <span>GST ({(TAX_RATE * 100).toFixed(0)}%)</span>
+              <span>₹{calculateTax().toFixed(2)}</span>
             </div>
             <div className="price-item total">
               <span>Total</span>
-              <span>${calculateTotal().toFixed(2)}</span>
+              <span>₹{calculateTotal().toFixed(2)}</span>
             </div>
           </div>
         </div>
@@ -270,7 +269,7 @@ const CheckoutPage = () => {
                 name="cardName"
                 value={paymentInfo.cardName}
                 onChange={handleInputChange}
-                placeholder="John Doe"
+                placeholder="Rahul Sharma"
                 className={errors.cardName ? 'error' : ''}
               />
               {errors.cardName && <span className="error-message">{errors.cardName}</span>}
@@ -311,7 +310,7 @@ const CheckoutPage = () => {
                 {errors.expiryDate && <span className="error-message">{errors.expiryDate}</span>}
               </div>
               
-              <div className="form-group">
+              <div className="form-group cvv-group">
                 <label>CVV</label>
                 <input
                   type="password"
@@ -348,7 +347,7 @@ const CheckoutPage = () => {
                   Processing...
                 </>
               ) : (
-                `Pay $${calculateTotal().toFixed(2)}`
+                `Pay ₹${calculateTotal().toFixed(2)}`
               )}
             </button>
           </form>

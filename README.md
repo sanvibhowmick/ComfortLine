@@ -1,1 +1,1 @@
-Click on the link to view: https://comfort-line-wbl5.vercel.app/
+Click on the link to view:https://comfort-line.vercel.app/

@@ -47,6 +47,13 @@ export default function ComfortLineHeader({ user, onLogout }) {
               Contact
             </Link>
           </li>
+          {user && (
+            <li>
+              <Link to="/dashboard" className="nav-link px-2">
+                Dashboard
+              </Link>
+            </li>
+          )}
         </ul>
 
         {/* Conditional Rendering for User Authentication */}

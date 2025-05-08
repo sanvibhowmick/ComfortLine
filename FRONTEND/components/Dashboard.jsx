@@ -1,419 +1,295 @@
-import React, { useState, useEffect } from 'react';
-import { Bell, Menu, User, Home, Map, Calendar, CreditCard, HelpCircle, LogOut, Settings, ChevronDown, Search } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Dashboard.css"; // Import the custom CSS file
 
-const Dashboard = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('dashboard');
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  // Sample user data
-  const userData = {
-    name: "Amanda Peterson",
-    email: "amanda.p@example.com",
-    memberSince: "May 2023",
-    loyaltyPoints: 450,
-    upcomingTrips: 2,
-    pastTrips: 7
-  };
-
-  // Recent trips data
-  const recentTrips = [
-    { id: 1, from: "Boston", to: "New York", date: "April 28, 2025", status: "Completed", price: "$42.50" },
-    { id: 2, from: "New York", to: "Washington DC", date: "May 15, 2025", status: "Upcoming", price: "$65.00" },
-    { id: 3, from: "Washington DC", to: "Boston", date: "May 22, 2025", status: "Upcoming", price: "$58.75" }
-  ];
-
-  // Special offers
-  const specialOffers = [
-    { id: 1, title: "25% Off Weekend Trips", validUntil: "May 31, 2025", code: "WEEKEND25" },
-    { id: 2, title: "Companion Rides Free", validUntil: "June 15, 2025", code: "BRINGAFRIEND" }
-  ];
+const DashboardPage = ({ user, dashboardData }) => {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(!dashboardData);
+  const [data, setData] = useState(dashboardData || null);
 
   useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-      if (window.innerWidth > 768) {
-        setIsMenuOpen(false);
+    // If dashboardData is already passed down, use it
+    if (dashboardData) {
+      setData(dashboardData);
+      setIsLoading(false);
+      return;
+    }
+    
+    // Otherwise fetch it
+    const fetchDashboardData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/dashboard-data", {
+          credentials: "include",
+          headers: {
+            "Accept": "application/json"
+          }
+        });
+        
+        if (response.ok) {
+          const responseData = await response.json();
+          setData(responseData);
+        } else {
+          console.error("Failed to fetch dashboard data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    if (user && !dashboardData) {
+      fetchDashboardData();
+    }
+  }, [user, dashboardData]);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  // Navigation handlers
+  const handleBookTrip = () => navigate("/book");
+  const handleViewBookings = () => navigate("/book");
+  const handleTripHistory = () => navigate("/trip-history");
+  const handleLoyaltyProgram = () => navigate("/loyalty-program");
+  const handleAccountSettings = () => navigate("/account-settings");
+  const handleViewAllOffers = () => navigate("/book-trip?show=offers");
+
+  // Handle logout
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/logout', {
+        method: 'GET',
+        credentials: 'include',
+      });
+      
+      if (response.ok) {
+        navigate('/login');
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
   };
 
-  const isMobile = windowWidth <= 768;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-800"></div>
+      </div>
+    );
+  }
+
+  // Ensure we have user data even if dashboard data failed to load
+  const userData = data?.user || user;
+  const trips = data?.trips || [];
+  const offers = data?.offers || [];
+  
+  // Format date for display
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+  };
+
+  // Member since date
+  const memberSinceDate = userData?.memberSince 
+    ? formatDate(userData.memberSince)
+    : formatDate(userData?.createdAt || new Date());
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              {isMobile && (
-                <button
-                  onClick={toggleMenu}
-                  className="text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-800 p-2"
-                >
-                  <Menu size={24} />
-                </button>
-              )}
-              <div className="flex-shrink-0 flex items-center">
-                <span className="text-2xl font-bold text-green-800">ComfortLine</span>
+    <div className="dashboard-container">
+      <div className="dashboard-inner">
+        {/* Profile Card */}
+        <div className="profile-card">
+          <div className="md:flex items-center">
+            <div className="md:w-1/4 text-center mb-4 md:mb-0">
+              <div className="profile-image">
+                {userData?.photo ? (
+                  <img 
+                    src={userData.photo} 
+                    alt="Profile" 
+                    className="profile-avatar"
+                  />
+                ) : (
+                  <div className="profile-avatar-placeholder">
+                    {userData?.name?.charAt(0) || "U"}
+                  </div>
+                )}
+                <div className="profile-status"></div>
               </div>
             </div>
-
-            <div className="hidden md:flex md:items-center md:space-x-6">
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search size={18} className="text-gray-400" />
-                </div>
-                <input
-                  type="text"
-                  placeholder="Search trips, stations..."
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-green-700 focus:border-green-700 sm:text-sm"
-                />
-              </div>
-
-              <button className="p-1 rounded-full text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-800">
-                <span className="sr-only">View notifications</span>
-                <Bell size={20} />
+            
+            <div className="profile-details md:w-3/4 md:pl-6">
+              <h1>{userData?.name || "User"}</h1>
+              <p className="profile-email">{userData?.email || "No email available"}</p>
+              <p className="member-since">Member since: {memberSinceDate}</p>
+              <button 
+                onClick={handleLogout} 
+                className="logout-button"
+              >
+                Logout
               </button>
-
-              <div className="relative ml-3">
-                <div className="flex items-center">
-                  <button className="flex items-center max-w-xs bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-800">
-                    <span className="sr-only">Open user menu</span>
-                    <div className="bg-green-800 rounded-full p-1">
-                      <User size={24} className="text-white" />
-                    </div>
-                    <span className="ml-2 text-sm font-medium text-gray-700">{userData.name}</span>
-                    <ChevronDown size={16} className="ml-1 text-gray-500" />
-                  </button>
+              
+              <div className="stats-container">
+                <div className="stat-card loyalty-card">
+                  <div className="stat-value loyalty-value">{userData?.loyaltyPoints || 0}</div>
+                  <div className="stat-label">Loyalty Points</div>
                 </div>
-              </div>
-            </div>
-
-            {/* Mobile profile button */}
-            {isMobile && (
-              <div className="flex items-center">
-                <button className="p-1 rounded-full text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-800 mr-3">
-                  <Bell size={20} />
-                </button>
-                <div className="bg-green-800 rounded-full p-1">
-                  <User size={20} className="text-white" />
+                <div className="stat-card upcoming-card">
+                  <div className="stat-value upcoming-value">{userData?.upcomingTrips || 0}</div>
+                  <div className="stat-label">Upcoming Trips</div>
                 </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </header>
-
-      {/* Mobile menu */}
-      {isMobile && isMenuOpen && (
-        <div className="fixed inset-0 z-40 flex">
-          <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={toggleMenu}></div>
-          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-white">
-            <div className="pt-5 pb-4">
-              <div className="px-4 flex items-center justify-between">
-                <div className="flex-shrink-0">
-                  <span className="text-2xl font-bold text-green-800">ComfortLine</span>
+                <div className="stat-card past-card">
+                  <div className="stat-value past-value">{userData?.pastTrips || 0}</div>
+                  <div className="stat-label">Past Trips</div>
                 </div>
-                <button
-                  onClick={toggleMenu}
-                  className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-800"
-                >
-                  <span className="sr-only">Close sidebar</span>
-                  <span className="text-2xl font-medium text-gray-500">&times;</span>
-                </button>
-              </div>
-              <div className="mt-5 px-2 space-y-1">
-                <a href="#" className="bg-green-50 text-green-800 group flex items-center px-2 py-2 text-base font-medium rounded-md">
-                  <Home size={20} className="mr-4 text-green-800" />
-                  Dashboard
-                </a>
-                <a href="#" className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium rounded-md">
-                  <Calendar size={20} className="mr-4 text-gray-500" />
-                  My Trips
-                </a>
-                <a href="#" className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium rounded-md">
-                  <Map size={20} className="mr-4 text-gray-500" />
-                  Routes & Schedules
-                </a>
-                <a href="#" className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium rounded-md">
-                  <CreditCard size={20} className="mr-4 text-gray-500" />
-                  Payment Methods
-                </a>
-                <a href="#" className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium rounded-md">
-                  <HelpCircle size={20} className="mr-4 text-gray-500" />
-                  Help & Support
-                </a>
-                <a href="#" className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium rounded-md">
-                  <Settings size={20} className="mr-4 text-gray-500" />
-                  Settings
-                </a>
-                <a href="#" className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium rounded-md">
-                  <LogOut size={20} className="mr-4 text-gray-500" />
-                  Sign Out
-                </a>
               </div>
             </div>
           </div>
         </div>
-      )}
 
-      <div className="flex flex-1 overflow-hidden">
-        {/* Desktop sidebar */}
-        {!isMobile && (
-          <div className="w-64 bg-white border-r border-gray-200 pt-5 pb-4 flex flex-col">
-            <div className="flex flex-col flex-grow overflow-y-auto">
-              <div className="flex-grow flex flex-col">
-                <nav className="flex-1 px-2 space-y-1">
-                  <a href="#" className="bg-green-50 text-green-800 group flex items-center px-2 py-2 text-sm font-medium rounded-md" onClick={() => setActiveTab('dashboard')}>
-                    <Home size={20} className="mr-3 text-green-800" />
-                    Dashboard
-                  </a>
-                  <a href="#" className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md" onClick={() => setActiveTab('trips')}>
-                    <Calendar size={20} className="mr-3 text-gray-500" />
-                    My Trips
-                  </a>
-                  <a href="#" className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md" onClick={() => setActiveTab('routes')}>
-                    <Map size={20} className="mr-3 text-gray-500" />
-                    Routes & Schedules
-                  </a>
-                  <a href="#" className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md" onClick={() => setActiveTab('payment')}>
-                    <CreditCard size={20} className="mr-3 text-gray-500" />
-                    Payment Methods
-                  </a>
-                  <a href="#" className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md" onClick={() => setActiveTab('help')}>
-                    <HelpCircle size={20} className="mr-3 text-gray-500" />
-                    Help & Support
-                  </a>
-                </nav>
-              </div>
-              <div className="mt-auto border-t border-gray-200 px-2 py-4 space-y-1">
-                <a href="#" className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-                  <Settings size={20} className="mr-3 text-gray-500" />
-                  Settings
-                </a>
-                <a href="#" className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-                  <LogOut size={20} className="mr-3 text-gray-500" />
-                  Sign Out
-                </a>
-              </div>
+        {/* Content Grid */}
+        <div className="content-grid">
+          {/* Upcoming Trips */}
+          <div className="content-card trips-card">
+            <div className="card-header">
+              <h2>Upcoming Trips</h2>
+              <svg className="card-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
             </div>
-          </div>
-        )}
-
-        {/* Main content */}
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-4 sm:p-6 lg:p-8">
-          <div className="max-w-7xl mx-auto">
-            {/* Welcome section */}
-            <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
-              <div className="px-4 py-5 sm:px-6 flex justify-between items-center flex-wrap">
+            <div className="card-content">
+              {trips && trips.length > 0 ? (
                 <div>
-                  <h1 className="text-xl font-semibold text-gray-900">Welcome back, {userData.name}!</h1>
-                  <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                    Member since {userData.memberSince} • {userData.loyaltyPoints} Loyalty Points Available
-                  </p>
-                </div>
-                <div className="mt-2 sm:mt-0">
-                  <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-800 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-800">
-                    Book a New Trip
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Stats Overview */}
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-6">
-              {/* Upcoming trips */}
-              <div className="bg-white overflow-hidden shadow rounded-lg">
-                <div className="px-4 py-5 sm:p-6">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0 bg-green-100 rounded-md p-3">
-                      <Calendar size={24} className="text-green-800" />
-                    </div>
-                    <div className="ml-5 w-0 flex-1">
-                      <dl>
-                        <dt className="text-sm font-medium text-gray-500 truncate">Upcoming Trips</dt>
-                        <dd>
-                          <div className="text-lg font-medium text-gray-900">{userData.upcomingTrips}</div>
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-gray-50 px-4 py-4 sm:px-6">
-                  <div className="text-sm">
-                    <a href="#" className="font-medium text-green-800 hover:text-green-700">
-                      View all trips <span aria-hidden="true">&rarr;</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              {/* Loyalty Points */}
-              <div className="bg-white overflow-hidden shadow rounded-lg">
-                <div className="px-4 py-5 sm:p-6">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0 bg-green-100 rounded-md p-3">
-                      <CreditCard size={24} className="text-green-800" />
-                    </div>
-                    <div className="ml-5 w-0 flex-1">
-                      <dl>
-                        <dt className="text-sm font-medium text-gray-500 truncate">Loyalty Points</dt>
-                        <dd>
-                          <div className="text-lg font-medium text-gray-900">{userData.loyaltyPoints}</div>
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-gray-50 px-4 py-4 sm:px-6">
-                  <div className="text-sm">
-                    <a href="#" className="font-medium text-green-800 hover:text-green-700">
-                      Redeem points <span aria-hidden="true">&rarr;</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              {/* Past trips */}
-              <div className="bg-white overflow-hidden shadow rounded-lg">
-                <div className="px-4 py-5 sm:p-6">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0 bg-green-100 rounded-md p-3">
-                      <Map size={24} className="text-green-800" />
-                    </div>
-                    <div className="ml-5 w-0 flex-1">
-                      <dl>
-                        <dt className="text-sm font-medium text-gray-500 truncate">Completed Trips</dt>
-                        <dd>
-                          <div className="text-lg font-medium text-gray-900">{userData.pastTrips}</div>
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-gray-50 px-4 py-4 sm:px-6">
-                  <div className="text-sm">
-                    <a href="#" className="font-medium text-green-800 hover:text-green-700">
-                      View trip history <span aria-hidden="true">&rarr;</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Recent Trips */}
-              <div className="lg:col-span-2">
-                <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-                  <div className="px-4 py-5 sm:px-6 flex justify-between items-center">
-                    <h2 className="text-lg leading-6 font-medium text-gray-900">Recent & Upcoming Trips</h2>
-                    <a href="#" className="text-sm font-medium text-green-800 hover:text-green-700">
-                      View all
-                    </a>
-                  </div>
-                  <div className="border-t border-gray-200 divide-y divide-gray-200">
-                    {recentTrips.map((trip) => (
-                      <div key={trip.id} className="px-4 py-4 sm:px-6 hover:bg-gray-50">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="text-sm font-medium text-gray-900">
-                              {trip.from} to {trip.to}
-                            </p>
-                            <p className="text-sm text-gray-500">{trip.date}</p>
-                          </div>
-                          <div className="flex flex-col items-end">
-                            <span 
-                              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                trip.status === 'Completed' 
-                                  ? 'bg-gray-100 text-gray-800' 
-                                  : 'bg-green-100 text-green-800'
-                              }`}
-                            >
-                              {trip.status}
-                            </span>
-                            <span className="text-sm font-medium text-gray-900 mt-1">{trip.price}</span>
-                          </div>
-                        </div>
+                  {trips.map(trip => (
+                    <div key={trip.id} className="trip-item">
+                      <div className="trip-destination">{trip.destination}</div>
+                      <div className="trip-date">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        {formatDate(trip.date)}
                       </div>
-                    ))}
-                    {recentTrips.length === 0 && (
-                      <div className="px-4 py-8 sm:px-6 text-center">
-                        <p className="text-sm text-gray-500">No recent trips found.</p>
-                        <button className="mt-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-800 hover:bg-green-700">
-                          Plan Your First Trip
-                        </button>
+                      <div className="trip-status">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span className={
+                          trip.status === "Confirmed" ? "status-confirmed" : 
+                          trip.status === "Pending" ? "status-pending" : ""
+                        }>
+                          {trip.status}
+                        </span>
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  ))}
                 </div>
-              </div>
-
-              {/* Special Offers */}
-              <div className="lg:col-span-1">
-                <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-                  <div className="px-4 py-5 sm:px-6">
-                    <h2 className="text-lg leading-6 font-medium text-gray-900">Special Offers</h2>
-                  </div>
-                  <div className="border-t border-gray-200 divide-y divide-gray-200">
-                    {specialOffers.map((offer) => (
-                      <div key={offer.id} className="px-4 py-4 sm:px-6 hover:bg-gray-50">
-                        <div className="flex flex-col">
-                          <p className="text-sm font-medium text-gray-900">{offer.title}</p>
-                          <p className="text-sm text-gray-500">Valid until {offer.validUntil}</p>
-                          <div className="mt-2 flex items-center bg-gray-100 rounded p-2">
-                            <code className="text-sm text-gray-800 font-mono">{offer.code}</code>
-                            <button className="ml-auto text-xs text-green-800 hover:text-green-700">
-                              Copy
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                    {specialOffers.length === 0 && (
-                      <div className="px-4 py-8 sm:px-6 text-center">
-                        <p className="text-sm text-gray-500">No special offers available at this time.</p>
-                      </div>
-                    )}
-                  </div>
+              ) : (
+                <div className="empty-state">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                  </svg>
+                  <p>No upcoming trips. Ready to plan your next adventure?</p>
                 </div>
-
-                {/* Quick Actions */}
-                <div className="mt-6 bg-white shadow overflow-hidden sm:rounded-lg">
-                  <div className="px-4 py-5 sm:px-6">
-                    <h2 className="text-lg leading-6 font-medium text-gray-900">Quick Actions</h2>
-                  </div>
-                  <div className="border-t border-gray-200 px-4 py-4 sm:px-6 space-y-3">
-                    <a href="#" className="block text-sm font-medium text-green-800 hover:text-green-700">
-                      Check trip status
-                    </a>
-                    <a href="#" className="block text-sm font-medium text-green-800 hover:text-green-700">
-                      Download ticket
-                    </a>
-                    <a href="#" className="block text-sm font-medium text-green-800 hover:text-green-700">
-                      Update personal information
-                    </a>
-                    <a href="#" className="block text-sm font-medium text-green-800 hover:text-green-700">
-                      Contact customer support
-                    </a>
-                  </div>
-                </div>
-              </div>
+              )}
+              <button 
+                className="action-button primary-button"
+                onClick={handleBookTrip}
+              >
+                Book New Trip
+              </button>
             </div>
           </div>
-        </main>
+
+          {/* Special Offers */}
+          <div className="content-card offers-card">
+            <div className="card-header">
+              <h2>Special Offers</h2>
+              <svg className="card-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+              </svg>
+            </div>
+            <div className="card-content">
+              {offers && offers.length > 0 ? (
+                <div>
+                  {offers.map(offer => (
+                    <div key={offer.id} className="offer-item">
+                      <div className="offer-title">{offer.title}</div>
+                      <div className="offer-discount">Discount: {offer.discount}</div>
+                      <div>
+                        <span className="offer-code">{offer.code}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="empty-state">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                  </svg>
+                  <p>No special offers available at the moment.</p>
+                </div>
+              )}
+              <button 
+                className="action-button secondary-button"
+                onClick={handleViewAllOffers}
+              >
+                View All Offers
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        {/* Quick Links */}
+        <div className="quick-links-card">
+          <div className="quick-links-header">
+            <h2>Quick Links</h2>
+          </div>
+          <div className="links-grid">
+            <div 
+              className="quick-link-button bookings-link"
+              onClick={handleViewBookings}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              <span>My Bookings</span>
+            </div>
+            <div 
+              className="quick-link-button history-link"
+              onClick={handleTripHistory}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>Trip History</span>
+            </div>
+            <div 
+              className="quick-link-button loyalty-link"
+              onClick={handleLoyaltyProgram}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>Loyalty Program</span>
+            </div>
+            <div 
+              className="quick-link-button settings-link"
+              onClick={handleAccountSettings}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span>Account Settings</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default DashboardPage;

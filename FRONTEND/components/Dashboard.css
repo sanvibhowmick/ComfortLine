@@ -1,0 +1,501 @@
+/* Dashboard.css */
+
+/* Main Dashboard Styles */
+.dashboard-container {
+    background-color: #f5f7fa;
+    min-height: calc(100vh - 64px); /* Adjust based on header height */
+    padding: 2rem 0;
+  }
+  
+  .dashboard-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  
+  /* Profile Card Styles */
+  .profile-card {
+    background: linear-gradient(to right, #ffffff, #f8f9ff);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease;
+    border-top: 5px solid #4CAF50;
+  }
+  
+  .profile-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .profile-image {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .profile-avatar {
+    height: 120px;
+    width: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #4CAF50;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-avatar-placeholder {
+    height: 120px;
+    width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #e0f2f1, #b2dfdb);
+    color: #00695c;
+    font-size: 3rem;
+    font-weight: bold;
+    border: 4px solid #4CAF50;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-status {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    height: 20px;
+    width: 20px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+    border: 3px solid white;
+  }
+  
+  .profile-details h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #263238;
+  }
+  
+  .profile-email {
+    color: #607D8B;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  .member-since {
+    color: #9E9E9E;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Stats Cards */
+  .stats-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .stat-card {
+    padding: 1.25rem;
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  }
+  
+  .loyalty-card {
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  }
+  
+  .upcoming-card {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+  }
+  
+  .past-card {
+    background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+  }
+  
+  .stat-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+  }
+  
+  .loyalty-value {
+    color: #2E7D32;
+  }
+  
+  .upcoming-value {
+    color: #1565C0;
+  }
+  
+  .past-value {
+    color: #6A1B9A;
+  }
+  
+  .stat-label {
+    font-size: 0.875rem;
+    color: #616161;
+    font-weight: 500;
+  }
+  
+  /* Content Cards */
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .content-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  .content-card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    height: 100%;
+    transition: all 0.3s ease;
+    border-top: 4px solid transparent;
+  }
+  
+  .content-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .trips-card {
+    border-color: #4CAF50;
+  }
+  
+  .offers-card {
+    border-color: #FFC107;
+  }
+  
+  .card-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .card-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #263238;
+    font-weight: 600;
+  }
+  
+  .card-icon {
+    height: 2rem;
+    width: 2rem;
+    color: #9E9E9E;
+  }
+  
+  .card-content {
+    padding: 1.5rem;
+  }
+  
+  /* Trip Items */
+  .trip-item {
+    border-left: 4px solid #4CAF50;
+    padding: 1rem 1rem 1rem 1.25rem;
+    margin-bottom: 1rem;
+    background-color: #fafafa;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+  
+  .trip-item:hover {
+    background-color: #f5f5f5;
+    transform: translateX(3px);
+  }
+  
+  .trip-destination {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: #333333;
+  }
+  
+  .trip-date, .trip-status {
+    font-size: 0.875rem;
+    color: #757575;
+    display: flex;
+    align-items: center;
+    margin-top: 0.25rem;
+  }
+  
+  .trip-date svg, .trip-status svg {
+    margin-right: 0.5rem;
+    height: 1rem;
+    width: 1rem;
+  }
+  
+  .status-confirmed {
+    color: #43A047;
+    font-weight: 500;
+  }
+  
+  .status-pending {
+    color: #FFA000;
+    font-weight: 500;
+  }
+  
+  /* Offer Items */
+  .offer-item {
+    background: linear-gradient(to right, #FFFDE7, #FFF9C4);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    transition: all 0.2s ease;
+    border: 1px solid #FFF59D;
+  }
+  
+  .offer-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+  
+  .offer-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #F57F17;
+    margin-bottom: 0.5rem;
+  }
+  
+  .offer-discount {
+    font-size: 0.875rem;
+    color: #757575;
+    margin-bottom: 0.75rem;
+  }
+  
+  .offer-code {
+    display: inline-block;
+    background-color: #FFF176;
+    color: #F57F17;
+    padding: 0.375rem 0.75rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border: 1px dashed #FFD54F;
+  }
+  
+  /* Action Buttons */
+  .action-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    outline: none;
+    margin-top: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .primary-button {
+    background-color: #4CAF50;
+    color: white;
+    box-shadow: 0 4px 6px rgba(76, 175, 80, 0.2);
+  }
+  
+  .primary-button:hover {
+    background-color: #43A047;
+    box-shadow: 0 6px 10px rgba(76, 175, 80, 0.3);
+    transform: translateY(-2px);
+  }
+  
+  .secondary-button {
+    background-color: #FFC107;
+    color: #212121;
+    box-shadow: 0 4px 6px rgba(255, 193, 7, 0.2);
+  }
+  
+  .secondary-button:hover {
+    background-color: #FFB300;
+    box-shadow: 0 6px 10px rgba(255, 193, 7, 0.3);
+    transform: translateY(-2px);
+  }
+  
+  /* Quick Links Section */
+  .quick-links-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    border-top: 4px solid #673AB7;
+  }
+  
+  .quick-links-header {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .quick-links-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #263238;
+    font-weight: 600;
+  }
+  
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .links-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  .quick-link-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 1rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .quick-link-button svg {
+    height: 1.5rem;
+    width: 1.5rem;
+    margin-bottom: 0.75rem;
+    transition: all 0.3s ease;
+  }
+  
+  .quick-link-button span {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  
+  .bookings-link {
+    background-color: #E3F2FD;
+    color: #1565C0;
+  }
+  
+  .bookings-link:hover {
+    background-color: #BBDEFB;
+    transform: translateY(-3px);
+  }
+  
+  .bookings-link:hover svg {
+    transform: scale(1.2);
+  }
+  
+  .history-link {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+  }
+  
+  .history-link:hover {
+    background-color: #C8E6C9;
+    transform: translateY(-3px);
+  }
+  
+  .history-link:hover svg {
+    transform: scale(1.2);
+  }
+  
+  .loyalty-link {
+    background-color: #F3E5F5;
+    color: #6A1B9A;
+  }
+  
+  .loyalty-link:hover {
+    background-color: #E1BEE7;
+    transform: translateY(-3px);
+  }
+  
+  .loyalty-link:hover svg {
+    transform: scale(1.2);
+  }
+  
+  .settings-link {
+    background-color: #FFEBEE;
+    color: #C62828;
+  }
+  
+  .settings-link:hover {
+    background-color: #FFCDD2;
+    transform: translateY(-3px);
+  }
+  
+  .settings-link:hover svg {
+    transform: scale(1.2);
+  }
+  
+  /* Empty State Styles */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    color: #9E9E9E;
+  }
+  
+  .empty-state svg {
+    height: 3rem;
+    width: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+  
+  .empty-state p {
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 767px) {
+    .profile-card {
+      padding: 1.5rem;
+    }
+    
+    .profile-details h1 {
+      font-size: 1.5rem;
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+    }
+    
+    .card-header h2 {
+      font-size: 1.25rem;
+    }
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .dashboard-container {
+    animation: fadeIn 0.5s ease-out;
+  }

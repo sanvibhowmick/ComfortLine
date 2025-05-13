@@ -17,10 +17,8 @@ const Hero = () => {
   
   const texts = [
     "Where Every Journey Begins with Comfort",
-
-"Luxury on the Move, Comfort in Every Ride",
-
-"Reliability and Comfort, Mile After Mile"
+    "Luxury on the Move, Comfort in Every Ride",
+    "Reliability and Comfort, Mile After Mile"
   ];
   
   const typingRef = useRef(null);
@@ -31,8 +29,8 @@ const Hero = () => {
       const fullText = texts[i];
       
       setTypewriterText(
-        isDeleting 
-          ? fullText.substring(0, typewriterText.length - 1) 
+        isDeleting
+          ? fullText.substring(0, typewriterText.length - 1)
           : fullText.substring(0, typewriterText.length + 1)
       );
       
@@ -53,6 +51,12 @@ const Hero = () => {
 
   return (
     <section className="hero">
+      {/* Video Background */}
+      <video className="hero-video" autoPlay muted loop playsInline>
+        <source src="\dist\assets\Generated video 1.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
       <div className="hero-overlay"></div>
       <div className="hero-content" data-aos="fade-up" data-aos-duration="1500">
         <h1 className="hero-heading">
@@ -63,8 +67,8 @@ const Hero = () => {
           Travel in style with ComfortLine, your trusted partner for unforgettable trips.
         </p>
         <Link to="/book" className="cta-button hero-button">
-  Book Your Ride
-</Link>
+          Book Your Ride
+        </Link>
       </div>
     </section>
   );

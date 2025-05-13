@@ -1,0 +1,81 @@
+:root {
+  --primary-bg: #0b2e13;
+  --secondary-bg: #1c3b20;
+  --accent-color: #34d399; /* Tailwind's emerald-400 */
+  --accent-color-dark: #059669; /* emerald-600 */
+  --text-primary: #ecfdf5; /* near white */
+  --text-secondary: #a7f3d0; /* emerald-200 */
+  --border-color: #14532d;
+}
+
+/* Background and layout */
+.bg-gray-50 {
+  background-color: var(--primary-bg) !important;
+}
+
+.bg-white {
+  background-color: var(--secondary-bg) !important;
+}
+
+.bg-blue-100 {
+  background-color: var(--accent-color) !important;
+  color: var(--primary-bg) !important;
+}
+
+.bg-blue-50 {
+  background-color: var(--primary-bg) !important;
+}
+
+.border-blue-100 {
+  border-color: var(--border-color) !important;
+}
+
+.border-gray-200 {
+  border-color: var(--border-color) !important;
+}
+
+/* Typography */
+.text-gray-800,
+.text-gray-700,
+.text-gray-600 {
+  color: var(--text-primary) !important;
+}
+
+.text-blue-600 {
+  color: var(--accent-color) !important;
+}
+
+.text-blue-800 {
+  color: var(--accent-color-dark) !important;
+}
+
+.text-blue-700 {
+  color: var(--accent-color) !important;
+}
+
+/* Buttons */
+.bg-blue-600 {
+  background-color: var(--accent-color) !important;
+}
+
+.bg-blue-600:hover,
+.hover\:bg-blue-700:hover {
+  background-color: var(--accent-color-dark) !important;
+}
+
+.hover\:bg-gray-300:hover {
+  background-color: #276749 !important;
+}
+
+/* Button text */
+.text-white {
+  color: white !important;
+}
+
+.bg-gray-200 {
+  background-color: #14532d !important;
+}
+
+.text-gray-800 {
+  color: var(--text-secondary) !important;
+}

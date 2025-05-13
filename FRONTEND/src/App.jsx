@@ -13,6 +13,10 @@ import BookingPage from "../components/Book";
 import CheckoutPage from "../components/Checkout";
 import Chatbot from "../components/ChatBot";
 import DashboardPage from "../components/Dashboard";
+import TripHistoryPage from "../components/TripHistory";
+import LoyaltyProgramPage from "../components/LoyaltyProgram";
+import AccountSettingsPage from "../components/AccountSettings";
+import OffersPage from "../components/ShowOffers";
 
 // Protected Route Component
 const ProtectedRoute = ({ element, user }) => {
@@ -168,11 +172,49 @@ function AppWrapper() {
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/book" element={<BookingPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        
+        {/* Dashboard and related routes */}
         <Route
           path="/dashboard"
           element={
             <ProtectedRoute
               element={<DashboardPage user={user} dashboardData={dashboardData} />}
+              user={user}
+            />
+          }
+        />
+        <Route
+          path="/trip-history"
+          element={
+            <ProtectedRoute
+              element={<TripHistoryPage user={user} />}
+              user={user}
+            />
+          }
+        />
+        <Route
+          path="/loyalty-program"
+          element={
+            <ProtectedRoute
+              element={<LoyaltyProgramPage user={user} />}
+              user={user}
+            />
+          }
+        />
+        <Route
+          path="/account-settings"
+          element={
+            <ProtectedRoute
+              element={<AccountSettingsPage user={user} />}
+              user={user}
+            />
+          }
+        />
+        <Route
+          path="/show-offers"
+          element={
+            <ProtectedRoute
+              element={<OffersPage user={user} />}
               user={user}
             />
           }
